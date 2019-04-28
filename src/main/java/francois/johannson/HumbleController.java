@@ -37,6 +37,18 @@ public class HumbleController {
         return sContent;
     }
 
+    private ArrayList<Member> readMemberlist() {
+        String sOldContent = this.readFileContents();
+
+        ArrayList<Member> memberlist = new ArrayList<>();
+
+        if ( sOldContent.length() > 0 ) {
+            Type listType = new TypeToken<ArrayList<Member>>(){}.getType();
+            memberlist = new Gson().fromJson(sOldContent, listType);
+        }
+
+        return memberlist;
+    }
 
     private void writeToFile(String sText) {
         PrintWriter writer = null;
@@ -61,14 +73,8 @@ public class HumbleController {
      */
     @PutMapping(path = "/members")
     public void addMember(@RequestBody Member member) {
-        String sOldContent = this.readFileContents();
 
-        ArrayList<Member> memberlist = new ArrayList<>();
-
-        if ( sOldContent.length() > 0 ) {
-            Type listType = new TypeToken<ArrayList<Member>>(){}.getType();
-            memberlist = new Gson().fromJson(sOldContent, listType);
-        }
+        ArrayList<Member> memberlist = readMemberlist();
 
         for( Member m:memberlist) {
             // don't write, if already existing
@@ -80,14 +86,25 @@ public class HumbleController {
         memberlist.add(member);
 
         String json = new Gson().toJson(memberlist);
-        System.out.println("Processing a PUT: " + member.toString() );
         writeToFile(json);
 
     }
 
     @PostMapping(path = "/members")
-    public void changeMember(@RequestBody String member) {
-        System.out.println("Processing a POST");
+    public void changeMember(@RequestBody Member member) {
+
+        ArrayList<Member> memberlist = readMemberlist();
+
+        for( Member m:memberlist) {
+            if ( m.getId()==member.getId() ) {
+                m.setName(member.getName());
+                m.setSurname(member.getSurname());
+            }
+        }
+
+        String json = new Gson().toJson(memberlist);
+        writeToFile(json);
+
     }
 
 

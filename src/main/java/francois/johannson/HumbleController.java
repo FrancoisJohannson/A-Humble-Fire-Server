@@ -2,9 +2,11 @@ package francois.johannson;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
+import com.google.gson.reflect.TypeToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -64,20 +66,10 @@ public class HumbleController {
         Gson gson = new Gson();
 
         ArrayList<Member> memberlist = new ArrayList<Member>();
-        ArrayList tmpl = new ArrayList();
 
         if ( sOldContent.length() > 0 ) {
-            tmpl = gson.fromJson(sOldContent, ArrayList.class); // deserializes json into target2
-        }
-
-
-        for (int i=0; i<tmpl.size(); i++ ) {
-
-            LinkedTreeMap x = (LinkedTreeMap) tmpl.get(i);
-            String name = (String)x.get("name");
-            String surname = (String)x.get("surname");
-
-            memberlist.add(new Member(name,surname));
+            Type listType = new TypeToken<ArrayList<Member>>(){}.getType();
+            memberlist = new Gson().fromJson(sOldContent, listType);
         }
 
         for( Member m:memberlist) {

@@ -1,6 +1,7 @@
 package francois.johannson;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
@@ -8,7 +9,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 //You can make HTTP-Requests with the Tools "Postman" or "Fiddler"
 
@@ -58,23 +61,37 @@ public class HumbleController {
     @PutMapping(path = "/members")
     public void addMember(@RequestBody Member member) {
         String sOldContent = this.readFileContents();
-        String[] arr = sOldContent.split(";");
         Gson gson = new Gson();
 
-        for(String line : arr) {
+        ArrayList<Member> memberlist = new ArrayList<Member>();
+        ArrayList tmpl = new ArrayList();
 
-            Member linemem = gson.fromJson(line, Member.class); // deserializes json into target2
+        if ( sOldContent.length() > 0 ) {
+            tmpl = gson.fromJson(sOldContent, ArrayList.class); // deserializes json into target2
+        }
 
+
+        for (int i=0; i<tmpl.size(); i++ ) {
+
+            LinkedTreeMap x = (LinkedTreeMap) tmpl.get(i);
+            String name = (String)x.get("name");
+            String surname = (String)x.get("surname");
+
+            memberlist.add(new Member(name,surname));
+        }
+
+        for( Member m:memberlist) {
             // don't write, if already existing
-            if (linemem.getName().contains(member.getName()) && linemem.getSurname().contains(member.getSurname())) {
+            if (m.getName().contains(member.getName()) && m.getSurname().contains(member.getSurname())) {
                 return;
             }
         }
 
+        memberlist.add(member);
 
-        String sTmp = sOldContent+";"+gson.toJson(member).toString();
+        String json = new Gson().toJson(memberlist);
         System.out.println("Processing a PUT: " + member.toString() );
-        writeToFile(sTmp);
+        writeToFile(json);
 
     }
 

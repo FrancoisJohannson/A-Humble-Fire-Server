@@ -9,6 +9,11 @@ public class Member {
         return name;
     }
 
+    public Member(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
+    }
+
     @Override
     public String toString() {
         return "Member{" +

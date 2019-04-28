@@ -5,6 +5,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
 //You can make HTTP-Requests with the Tools "Postman" or "Fiddler"
 
@@ -51,12 +55,26 @@ public class HumbleController {
     @GetMapping("/members")
     public String getMembers() {
 
+        Path fp = Paths.get("./", "list-of-members.txt");
+        List<String> sContent = null;
+        try {
+            sContent = Files.readAllLines(fp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String sText = "";
+
+        for (String line : sContent) {
+            sText += line;
+        }
         System.out.println("Processing a GET");
 
         JSONObject json = new JSONObject();
         json .put("name", "Francois");
         json.put("surname", "Johannson");
-        return json.toString();
+        //return json.toString();
+        return sText;
     }
 
     @RequestMapping("/")

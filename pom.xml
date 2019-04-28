@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>HumbleRestServer</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	<name>HumbleRestServer</name>
 	<description>Humble Rest Server with Spring Boot</description>
 
@@ -61,6 +61,14 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>10</source>
+					<target>10</target>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

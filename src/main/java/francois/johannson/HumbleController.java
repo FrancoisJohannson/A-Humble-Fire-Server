@@ -3,6 +3,12 @@ package francois.johannson;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+
 //You can make HTTP-Requests with the Tools "Postman" or "Fiddler"
 
 @RestController
@@ -20,7 +26,21 @@ public class HumbleController {
      */
     @PutMapping(path = "/members")
     public void addMember(@RequestBody Member member) {
-        System.out.println("Processing a PUT: name=" + member.getName() + ", surname=" + member.getSurname() );
+        String sMember = "name=" + member.getName() + ", surname=" + member.getSurname();
+        System.out.println("Processing a PUT: " + sMember );
+
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter("./list-of-members.txt", StandardCharsets.UTF_8);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        writer.println(sMember);
+        writer.close();
     }
 
     @PostMapping(path = "/members")

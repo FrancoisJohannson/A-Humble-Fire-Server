@@ -2,27 +2,21 @@ package francois.johannson;
 
 public class Member {
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    private Integer id;
     private String name;
     private String surname;
 
     public String getName() {
         return name;
     }
-
-    public Member(String name, String surname) {
-        this.name = name;
-        this.surname = surname;
-    }
-
-    @Override
-    public String toString() {
-        return "Member{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                '}';
-    }
-
-
 
     public void setName(String name) {
         this.name = name;

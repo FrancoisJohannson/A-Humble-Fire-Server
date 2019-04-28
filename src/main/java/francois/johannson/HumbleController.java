@@ -1,6 +1,6 @@
 package francois.johannson;
 
-import org.json.JSONObject;
+import com.google.gson.Gson;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
@@ -58,17 +58,21 @@ public class HumbleController {
     @PutMapping(path = "/members")
     public void addMember(@RequestBody Member member) {
         String sOldContent = this.readFileContents();
-        String[] arr = sOldContent.split("\r");
+        String[] arr = sOldContent.split(";");
+        Gson gson = new Gson();
 
         for(String line : arr) {
+
+            Member linemem = gson.fromJson(line, Member.class); // deserializes json into target2
+
             // don't write, if already existing
-            // TODO: write Test for swapped names and surnames
-            if (line.contains(member.getName()) && line.contains(member.getSurname())) {
+            if (linemem.getName().contains(member.getName()) && linemem.getSurname().contains(member.getSurname())) {
                 return;
             }
         }
 
-        String sTmp = sOldContent+member.toString();
+
+        String sTmp = sOldContent+";"+gson.toJson(member).toString();
         System.out.println("Processing a PUT: " + member.toString() );
         writeToFile(sTmp);
 

@@ -3,6 +3,7 @@ package francois.johannson;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
+//You can make HTTP-Requests with the Tools "Postman" or "Fiddler"
 
 @RestController
 public class HumbleController {
@@ -12,9 +13,14 @@ public class HumbleController {
         System.out.println("Processing a DELETE");
     }
 
+    /*
+    Processing a real JSON-Construct as Body of the PUT, for Example:
+    PUT http://localhost:8080/members
+    {"surname":"Frida","name":"Kahlo"}
+     */
     @PutMapping(path = "/members")
-    public void addMember(@RequestBody String member) {
-        System.out.println("Processing a PUT");
+    public void addMember(@RequestBody Member member) {
+        System.out.println("Processing a PUT: name=" + member.getName() + ", surname=" + member.getSurname() );
     }
 
     @PostMapping(path = "/members")

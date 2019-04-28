@@ -30,12 +30,14 @@ public class HumbleController {
 
     private String readFileContents() {
         String sContent = "";
-        try {
-            sContent = Files.readString(Paths.get("./", this.filename));
-        } catch (IOException e) {
-            e.printStackTrace();
+        Path p = Paths.get("./", this.filename);
+        if ( Files.exists(p) ) {
+            try {
+                sContent = Files.readString(p);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
         return sContent;
     }
 

@@ -7,13 +7,25 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class HumbleController {
 
-    @PostMapping(path = "/members")
+    @DeleteMapping(path = "/members")
+    public void deleteMember(@RequestBody String member) {
+        System.out.println("Processing a DELETE");
+    }
+
+    @PutMapping(path = "/members")
     public void addMember(@RequestBody String member) {
+        System.out.println("Processing a PUT");
+    }
+
+    @PostMapping(path = "/members")
+    public void changeMember(@RequestBody String member) {
         System.out.println("Processing a POST");
     }
 
-    @GetMapping("/infos")
-    public String infos() {
+    @GetMapping("/members")
+    public String getMembers() {
+
+        System.out.println("Processing a GET");
 
         JSONObject json = new JSONObject();
         json .put("name", "Francois");

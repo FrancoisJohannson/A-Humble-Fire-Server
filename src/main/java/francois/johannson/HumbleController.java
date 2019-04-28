@@ -19,6 +19,20 @@ public class HumbleController {
         System.out.println("Processing a DELETE");
     }
 
+    private void writeToFile(String sText) {
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter("./list-of-members.txt", StandardCharsets.UTF_8);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        writer.println(sText);
+        writer.close();
+
+    }
+
     /*
     Processing a real JSON-Construct as Body of the PUT, for Example:
     PUT http://localhost:8080/members
@@ -26,21 +40,9 @@ public class HumbleController {
      */
     @PutMapping(path = "/members")
     public void addMember(@RequestBody Member member) {
-        String sMember = "name=" + member.getName() + ", surname=" + member.getSurname();
-        System.out.println("Processing a PUT: " + sMember );
+        System.out.println("Processing a PUT: " + member.toString() );
+        writeToFile(member.toString());
 
-        PrintWriter writer = null;
-        try {
-            writer = new PrintWriter("./list-of-members.txt", StandardCharsets.UTF_8);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        writer.println(sMember);
-        writer.close();
     }
 
     @PostMapping(path = "/members")

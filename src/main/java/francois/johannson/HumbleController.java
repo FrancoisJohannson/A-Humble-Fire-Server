@@ -57,7 +57,18 @@ public class HumbleController {
      */
     @PutMapping(path = "/members")
     public void addMember(@RequestBody Member member) {
-        String sTmp = this.readFileContents()+member.toString();
+        String sOldContent = this.readFileContents();
+        String[] arr = sOldContent.split("\r");
+
+        for(String line : arr) {
+            // don't write, if already existing
+            // TODO: write Test for swapped names and surnames
+            if (line.contains(member.getName()) && line.contains(member.getSurname())) {
+                return;
+            }
+        }
+
+        String sTmp = sOldContent+member.toString();
         System.out.println("Processing a PUT: " + member.toString() );
         writeToFile(sTmp);
 

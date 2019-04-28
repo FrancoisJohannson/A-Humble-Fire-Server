@@ -15,15 +15,30 @@ import java.util.List;
 @RestController
 public class HumbleController {
 
+    private final String filename = "list-of-members.txt";
+
     @DeleteMapping(path = "/members")
     public void deleteMember(@RequestBody String member) {
         System.out.println("Processing a DELETE");
     }
 
+
+    private String readFileContents() {
+        String sContent = "";
+        try {
+            sContent = Files.readString(Paths.get("./", this.filename));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return sContent;
+    }
+
+
     private void writeToFile(String sText) {
         PrintWriter writer = null;
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("./list-of-members.txt", true));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(this.filename, false));
             writer = new PrintWriter( bw );
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -42,8 +57,9 @@ public class HumbleController {
      */
     @PutMapping(path = "/members")
     public void addMember(@RequestBody Member member) {
+        String sTmp = this.readFileContents()+member.toString();
         System.out.println("Processing a PUT: " + member.toString() );
-        writeToFile(member.toString());
+        writeToFile(sTmp);
 
     }
 
@@ -52,29 +68,12 @@ public class HumbleController {
         System.out.println("Processing a POST");
     }
 
+
+
     @GetMapping("/members")
     public String getMembers() {
-
-        Path fp = Paths.get("./", "list-of-members.txt");
-        List<String> sContent = null;
-        try {
-            sContent = Files.readAllLines(fp);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String sText = "";
-
-        for (String line : sContent) {
-            sText += line;
-        }
         System.out.println("Processing a GET");
-
-        JSONObject json = new JSONObject();
-        json .put("name", "Francois");
-        json.put("surname", "Johannson");
-        //return json.toString();
-        return sText;
+        return readFileContents();
     }
 
     @RequestMapping("/")

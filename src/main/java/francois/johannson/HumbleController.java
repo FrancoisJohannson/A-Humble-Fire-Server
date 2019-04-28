@@ -3,10 +3,7 @@ package francois.johannson;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 //You can make HTTP-Requests with the Tools "Postman" or "Fiddler"
@@ -22,7 +19,8 @@ public class HumbleController {
     private void writeToFile(String sText) {
         PrintWriter writer = null;
         try {
-            writer = new PrintWriter("./list-of-members.txt", StandardCharsets.UTF_8);
+            BufferedWriter bw = new BufferedWriter(new FileWriter("./list-of-members.txt", true));
+            writer = new PrintWriter( bw );
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

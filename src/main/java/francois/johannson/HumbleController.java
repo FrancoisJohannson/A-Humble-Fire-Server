@@ -124,8 +124,24 @@ public class HumbleController {
     // Return one Member by Id
     @GetMapping("/members/{id}")
     public @ResponseBody ResponseEntity<String> getMemberById(@PathVariable String id) {
-        return new ResponseEntity<String>("GET Response : "
-                + id, HttpStatus.OK);
+
+
+        ArrayList<Member> memberlist = readMemberlist();
+
+        Member mfound = null;
+
+        for( Member m:memberlist) {
+            if ( m.getId()==Integer.parseInt(id) ) {
+                mfound = m;
+            }
+        }
+
+        if ( mfound!=null ) {
+            String json = new Gson().toJson(mfound);
+            return new ResponseEntity<String>(json, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<String>("id not found : " + id, HttpStatus.OK);
     }
 
     @RequestMapping("/")

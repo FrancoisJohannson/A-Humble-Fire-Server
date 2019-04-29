@@ -99,20 +99,28 @@ public class HumbleController {
 
     // PUT is for changeing the content of an element
     @PutMapping(path = "/members")
-    public void changeMember(@RequestBody Member member) {
+    public @ResponseBody ResponseEntity<String> changeMember(@RequestBody Member member) {
 
         ArrayList<Member> memberlist = readMemberlist();
+
+        boolean idfound = false;
 
         for( Member m:memberlist) {
             if ( m.getId()==member.getId() ) {
                 m.setName(member.getName());
                 m.setSurname(member.getSurname());
+                idfound = true;
             }
         }
 
         String json = new Gson().toJson(memberlist);
         writeToFile(json);
 
+        if ( idfound ) {
+            return new ResponseEntity<>("Member changed", HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>("id not found", HttpStatus.NOT_FOUND);
     }
 
 

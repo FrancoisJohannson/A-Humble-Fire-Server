@@ -20,13 +20,34 @@ public class HumbleController {
 
     private final String filename = "list-of-members.txt";
 
-    @DeleteMapping(path = "/members")
-    public void deleteMember(@RequestBody String member) {
+    @DeleteMapping(path = "/members/{id}")
+    public @ResponseBody ResponseEntity<String> deleteMember(@PathVariable String id) {
 
         System.out.println("Processing a DELETE");
 
+        ArrayList<Member> memberlist = readMemberlist();
 
-    }
+        boolean idfound = false;
+
+        for(int i=0; i<memberlist.size(); i++) {
+
+            if ( memberlist.get(i).getId() == Integer.parseInt(id)) {
+                memberlist.remove(i);
+                idfound = true;
+            }
+
+        }
+
+        String json = new Gson().toJson(memberlist);
+        writeToFile(json);
+
+        if ( idfound ) {
+            return new ResponseEntity<>("Member deleted", HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>("id not found", HttpStatus.NOT_FOUND);
+
+        }
 
 
     private String readFileContents() {
@@ -72,6 +93,7 @@ public class HumbleController {
     }
 
     /*
+    POST is for insterting a new element
     Processing a real JSON-Construct as Body of the POST, for Example:
     POST http://localhost:8080/members
     {"id":1,"surname":"Frida","name":"Kahlo"}
@@ -83,9 +105,14 @@ public class HumbleController {
 
         for( Member m:memberlist) {
             // don't write, if already existing
+            if ( m.getId()==member.getId() ) {
+                return new ResponseEntity<String>("id aleady exists : " + member.getName() + " " + member.getSurname(), HttpStatus.CONFLICT);
+            }
+
             if (m.getName().contains(member.getName()) && m.getSurname().contains(member.getSurname())) {
                 return new ResponseEntity<String>("member aleady exists : " + member.getName() + " " + member.getSurname(), HttpStatus.CONFLICT);
             }
+
         }
 
         memberlist.add(member);

@@ -20,7 +20,10 @@ public class HumbleController {
 
     @DeleteMapping(path = "/members")
     public void deleteMember(@RequestBody String member) {
+
         System.out.println("Processing a DELETE");
+
+
     }
 
 
@@ -67,11 +70,11 @@ public class HumbleController {
     }
 
     /*
-    Processing a real JSON-Construct as Body of the PUT, for Example:
-    PUT http://localhost:8080/members
+    Processing a real JSON-Construct as Body of the POST, for Example:
+    POST http://localhost:8080/members
     {"id":1,"surname":"Frida","name":"Kahlo"}
      */
-    @PutMapping(path = "/members")
+    @PostMapping(path = "/members")
     public void addMember(@RequestBody Member member) {
 
         ArrayList<Member> memberlist = readMemberlist();
@@ -90,7 +93,8 @@ public class HumbleController {
 
     }
 
-    @PostMapping(path = "/members")
+    // PUT is for changeing the content of an element
+    @PutMapping(path = "/members")
     public void changeMember(@RequestBody Member member) {
 
         ArrayList<Member> memberlist = readMemberlist();

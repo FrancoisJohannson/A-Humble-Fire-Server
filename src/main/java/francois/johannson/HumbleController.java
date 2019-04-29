@@ -77,14 +77,14 @@ public class HumbleController {
     {"id":1,"surname":"Frida","name":"Kahlo"}
      */
     @PostMapping(path = "/members")
-    public void addMember(@RequestBody Member member) {
+    public @ResponseBody ResponseEntity<String> addMember(@RequestBody Member member) {
 
         ArrayList<Member> memberlist = readMemberlist();
 
         for( Member m:memberlist) {
             // don't write, if already existing
             if (m.getName().contains(member.getName()) && m.getSurname().contains(member.getSurname())) {
-                return;
+                return new ResponseEntity<String>("member aleady exists : " + member.getName() + " " + member.getSurname(), HttpStatus.CONFLICT);
             }
         }
 
@@ -92,6 +92,8 @@ public class HumbleController {
 
         String json = new Gson().toJson(memberlist);
         writeToFile(json);
+
+        return new ResponseEntity<String>("Member added", HttpStatus.OK);
 
     }
 

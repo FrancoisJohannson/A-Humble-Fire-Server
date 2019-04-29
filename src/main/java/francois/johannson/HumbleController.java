@@ -2,6 +2,8 @@ package francois.johannson;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
@@ -117,6 +119,13 @@ public class HumbleController {
     public String getMembers() {
         System.out.println("Processing a GET");
         return readFileContents();
+    }
+
+    // Return one Member by Id
+    @GetMapping("/members/{id}")
+    public @ResponseBody ResponseEntity<String> getMemberById(@PathVariable String id) {
+        return new ResponseEntity<String>("GET Response : "
+                + id, HttpStatus.OK);
     }
 
     @RequestMapping("/")

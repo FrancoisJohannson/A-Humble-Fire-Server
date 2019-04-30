@@ -2,7 +2,9 @@ package francois.johannson;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -124,7 +126,7 @@ public class HumbleController {
 
     }
 
-    // PUT is for changeing the content of an element
+    // PUT is for changing the content of an element
     @PutMapping(path = "/members")
     public @ResponseBody ResponseEntity<String> changeMember(@RequestBody Member member) {
 
@@ -174,8 +176,18 @@ public class HumbleController {
         }
 
         if ( mfound!=null ) {
+
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("Access-Control-Allow-Origin","*");
+
             String json = new Gson().toJson(mfound);
-            return new ResponseEntity<String>(json, HttpStatus.OK);
+            ResponseEntity re = ResponseEntity
+                .ok().
+                headers(responseHeaders).
+                contentType(MediaType.APPLICATION_JSON).
+                body(json);
+
+            return re;
         }
 
         return new ResponseEntity<String>("id not found : " + id, HttpStatus.OK);

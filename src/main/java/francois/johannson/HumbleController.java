@@ -58,7 +58,7 @@ public class HumbleController {
         Path p = Paths.get("./", this.filename);
         if ( Files.exists(p) ) {
             try {
-                sContent = Files.readString(p, StandardCharsets.ISO_8859_1);
+                sContent = Files.readString(p, StandardCharsets.UTF_8);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -73,33 +73,14 @@ public class HumbleController {
 
         if ( sOldContent.length() > 0 ) {
             Type listType = new TypeToken<ArrayList<Member>>(){}.getType();
+            memberlist = new Gson().fromJson(sOldContent, listType);
 
-
-            InputStream is = new ByteArrayInputStream(sOldContent.getBytes());
-            memberlist = new Gson().fromJson(new InputStreamReader(is,StandardCharsets.UTF_8), listType);
-
-            //memberlist = new Gson().fromJson(sOldContent, listType);
         }
 
         return memberlist;
     }
 
     private void writeToFile(String sText) {
-        /*
-        PrintWriter writer = null;
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(this.filename, false));
-            writer = new PrintWriter( bw );
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (writer != null) {
-            writer.println(sText);
-            writer.close();
-        }
-        */
 
         Writer out = null;
         try {

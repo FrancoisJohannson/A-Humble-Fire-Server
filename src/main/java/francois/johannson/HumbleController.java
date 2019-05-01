@@ -85,6 +85,7 @@ public class HumbleController {
     }
 
     private void writeToFile(String sText) {
+        /*
         PrintWriter writer = null;
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(this.filename, false));
@@ -98,6 +99,31 @@ public class HumbleController {
             writer.println(sText);
             writer.close();
         }
+        */
+
+        Writer out = null;
+        try {
+            out = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(this.filename,false), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            try {
+                out.write(sText);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /*
@@ -159,17 +185,14 @@ public class HumbleController {
     }
 
 
-
+    //  火
     @GetMapping("/members")
     public @ResponseBody ResponseEntity<String> getMembers() {
 
         ArrayList<Member> memberlist = readMemberlist();
 
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Access-Control-Allow-Origin","*");
-        responseHeaders.set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
         responseHeaders.setContentType(MediaType.valueOf("application/json;charset=UTF-8"));
-
         String json = new Gson().toJson(memberlist);
 
         ResponseEntity re = ResponseEntity
@@ -192,6 +215,7 @@ public class HumbleController {
 
         for( Member m:memberlist) {
             if ( m.getId()==Integer.parseInt(id) ) {
+                m.setSurname(" 火");
                 mfound = m;
             }
         }
@@ -199,8 +223,6 @@ public class HumbleController {
         if ( mfound!=null ) {
 
             HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.set("Access-Control-Allow-Origin","*");
-            responseHeaders.set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
             responseHeaders.setContentType(MediaType.valueOf("application/json;charset=UTF-8"));
 
             String json = new Gson().toJson(mfound);

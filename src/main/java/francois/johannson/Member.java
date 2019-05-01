@@ -11,23 +11,23 @@ public class Member {
     }
 
     private Integer id;
-    private String name;
-    private String surname;
+    private String hanzi;
+    private String english;
 
-    public String getName() {
-        return name;
+    public String getHanzi() {
+        return hanzi;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setHanzi(String hanzi) {
+        this.hanzi = hanzi;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getEnglish() {
+        return english;
     }
 
-    public void setSurname( String surname ) {
-        this.surname = surname;
+    public void setEnglish(String english) {
+        this.english = english;
     }
 
 }

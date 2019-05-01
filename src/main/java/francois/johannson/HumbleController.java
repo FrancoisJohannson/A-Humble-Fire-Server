@@ -121,11 +121,11 @@ public class HumbleController {
         for( Member m:memberlist) {
             // don't write, if already existing
             if ( m.getId()==member.getId() ) {
-                return new ResponseEntity<String>("id aleady exists : " + member.getName() + " " + member.getSurname(), HttpStatus.CONFLICT);
+                return new ResponseEntity<String>("id aleady exists : " + member.getHanzi() + " " + member.getEnglish(), HttpStatus.CONFLICT);
             }
 
-            if (m.getName().contains(member.getName()) && m.getSurname().contains(member.getSurname())) {
-                return new ResponseEntity<String>("member aleady exists : " + member.getName() + " " + member.getSurname(), HttpStatus.CONFLICT);
+            if (m.getHanzi().contains(member.getHanzi()) && m.getEnglish().contains(member.getEnglish())) {
+                return new ResponseEntity<String>("member aleady exists : " + member.getHanzi() + " " + member.getEnglish(), HttpStatus.CONFLICT);
             }
 
         }
@@ -149,8 +149,8 @@ public class HumbleController {
 
         for( Member m:memberlist) {
             if ( m.getId()==member.getId() ) {
-                m.setName(member.getName());
-                m.setSurname(member.getSurname());
+                m.setHanzi(member.getHanzi());
+                m.setEnglish(member.getEnglish());
                 idfound = true;
             }
         }
@@ -196,7 +196,6 @@ public class HumbleController {
 
         for( Member m:memberlist) {
             if ( m.getId()==Integer.parseInt(id) ) {
-                m.setSurname(" 火");
                 mfound = m;
             }
         }

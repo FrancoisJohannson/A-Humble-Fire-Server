@@ -21,7 +21,7 @@ import java.util.ArrayList;
 @RestController
 public class HumbleController {
 
-    private final String filename = "list-of-members.txt";
+    private final String filename = "list-of-chinese-words.txt";
 
     @DeleteMapping(path = "/chinesewords/{id}")
     public @ResponseBody ResponseEntity<String> deleteMember(@PathVariable String id) {

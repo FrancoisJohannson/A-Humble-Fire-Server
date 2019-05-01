@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -57,7 +58,7 @@ public class HumbleController {
         Path p = Paths.get("./", this.filename);
         if ( Files.exists(p) ) {
             try {
-                sContent = Files.readString(p);
+                sContent = Files.readString(p, StandardCharsets.ISO_8859_1);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -179,6 +180,7 @@ public class HumbleController {
 
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.set("Access-Control-Allow-Origin","*");
+            responseHeaders.set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 
             String json = new Gson().toJson(mfound);
             ResponseEntity re = ResponseEntity

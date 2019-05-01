@@ -1,1 +1,1 @@
-﻿[{"id":1,"hanzi":"火","english":"Fire"},{"id":2,"hanzi":"水","english":"Water"},{"id":3,"hanzi":"气","english":"Air"}]
+[{"id":1,"hanzi":"水","english":"Fire"},{"id":2,"hanzi":"水","english":"Water"},{"id":3,"hanzi":"气","english":"Air"},{"id":4,"hanzi":"土","english":"Earth"},{"id":5,"hanzi":"人 ","english":"Man"},{"id":6,"hanzi":"女","english":"Woman"}]

@@ -28,7 +28,7 @@ public class HumbleController {
 
         System.out.println("Processing a DELETE");
 
-        ArrayList<ChineseWords> memberlist = readWordList();
+        ArrayList<Words> memberlist = readWordList();
 
         boolean idfound = false;
 
@@ -45,7 +45,7 @@ public class HumbleController {
         writeToFile(json);
 
         if ( idfound ) {
-            return new ResponseEntity<>("ChineseWords deleted", HttpStatus.OK);
+            return new ResponseEntity<>("Words deleted", HttpStatus.OK);
         }
 
         return new ResponseEntity<>("id not found", HttpStatus.NOT_FOUND);
@@ -66,13 +66,13 @@ public class HumbleController {
         return sContent;
     }
 
-    private ArrayList<ChineseWords> readWordList() {
+    private ArrayList<Words> readWordList() {
         String sOldContent = this.readFileContents();
 
-        ArrayList<ChineseWords> memberlist = new ArrayList<>();
+        ArrayList<Words> memberlist = new ArrayList<>();
 
         if ( sOldContent.length() > 0 ) {
-            Type listType = new TypeToken<ArrayList<ChineseWords>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<Words>>(){}.getType();
             memberlist = new Gson().fromJson(sOldContent, listType);
 
         }
@@ -114,43 +114,43 @@ public class HumbleController {
     {"id":1,"surname":"Frida","name":"Kahlo"}
      */
     @PostMapping(path = "/chinesewords")
-    public @ResponseBody ResponseEntity<String> addMember(@RequestBody ChineseWords chineseWords) {
+    public @ResponseBody ResponseEntity<String> addMember(@RequestBody Words words) {
 
-        ArrayList<ChineseWords> memberlist = readWordList();
+        ArrayList<Words> memberlist = readWordList();
 
-        for( ChineseWords m:memberlist) {
+        for( Words m:memberlist) {
             // don't write, if already existing
-            if ( m.getId()== chineseWords.getId() ) {
-                return new ResponseEntity<String>("id aleady exists : " + chineseWords.getHanzi() + " " + chineseWords.getEnglish(), HttpStatus.CONFLICT);
+            if ( m.getId()== words.getId() ) {
+                return new ResponseEntity<String>("id aleady exists : " + words.getHanzi() + " " + words.getEnglish(), HttpStatus.CONFLICT);
             }
 
-            if (m.getHanzi().contains(chineseWords.getHanzi()) && m.getEnglish().contains(chineseWords.getEnglish())) {
-                return new ResponseEntity<String>("chineseWords aleady exists : " + chineseWords.getHanzi() + " " + chineseWords.getEnglish(), HttpStatus.CONFLICT);
+            if (m.getHanzi().contains(words.getHanzi()) && m.getEnglish().contains(words.getEnglish())) {
+                return new ResponseEntity<String>("words aleady exists : " + words.getHanzi() + " " + words.getEnglish(), HttpStatus.CONFLICT);
             }
 
         }
 
-        memberlist.add(chineseWords);
+        memberlist.add(words);
 
         String json = new Gson().toJson(memberlist);
         writeToFile(json);
 
-        return new ResponseEntity<String>("ChineseWords added", HttpStatus.OK);
+        return new ResponseEntity<String>("Words added", HttpStatus.OK);
 
     }
 
     // PUT is for changing the content of an element
     @PutMapping(path = "/chinesewords")
-    public @ResponseBody ResponseEntity<String> changeMember(@RequestBody ChineseWords chineseWords) {
+    public @ResponseBody ResponseEntity<String> changeMember(@RequestBody Words words) {
 
-        ArrayList<ChineseWords> memberlist = readWordList();
+        ArrayList<Words> memberlist = readWordList();
 
         boolean idfound = false;
 
-        for( ChineseWords m:memberlist) {
-            if ( m.getId()== chineseWords.getId() ) {
-                m.setHanzi(chineseWords.getHanzi());
-                m.setEnglish(chineseWords.getEnglish());
+        for( Words m:memberlist) {
+            if ( m.getId()== words.getId() ) {
+                m.setHanzi(words.getHanzi());
+                m.setEnglish(words.getEnglish());
                 idfound = true;
             }
         }
@@ -159,7 +159,7 @@ public class HumbleController {
         writeToFile(json);
 
         if ( idfound ) {
-            return new ResponseEntity<>("ChineseWords changed", HttpStatus.OK);
+            return new ResponseEntity<>("Words changed", HttpStatus.OK);
         }
 
         return new ResponseEntity<>("id not found", HttpStatus.NOT_FOUND);
@@ -170,7 +170,7 @@ public class HumbleController {
     @GetMapping("/chinesewords")
     public @ResponseBody ResponseEntity<String> getMembers() {
 
-        ArrayList<ChineseWords> memberlist = readWordList();
+        ArrayList<Words> memberlist = readWordList();
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setContentType(MediaType.valueOf("application/json;charset=UTF-8"));
@@ -185,16 +185,16 @@ public class HumbleController {
 
     }
 
-    // Return one ChineseWords by Id
+    // Return one Words by Id
     @GetMapping("/chinesewords/{id}")
     public @ResponseBody ResponseEntity<String> getMemberById(@PathVariable String id) {
 
 
-        ArrayList<ChineseWords> memberlist = readWordList();
+        ArrayList<Words> memberlist = readWordList();
 
-        ChineseWords mfound = null;
+        Words mfound = null;
 
-        for( ChineseWords m:memberlist) {
+        for( Words m:memberlist) {
             if ( m.getId()==Integer.parseInt(id) ) {
                 mfound = m;
             }

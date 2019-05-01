@@ -1,6 +1,6 @@
 package francois.johannson;
 
-public class Member {
+public class ChineseWords {
 
     public Integer getId() {
         return id;

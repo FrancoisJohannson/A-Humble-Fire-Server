@@ -73,7 +73,12 @@ public class HumbleController {
 
         if ( sOldContent.length() > 0 ) {
             Type listType = new TypeToken<ArrayList<Member>>(){}.getType();
-            memberlist = new Gson().fromJson(sOldContent, listType);
+
+
+            InputStream is = new ByteArrayInputStream(sOldContent.getBytes());
+            memberlist = new Gson().fromJson(new InputStreamReader(is,StandardCharsets.UTF_8), listType);
+
+            //memberlist = new Gson().fromJson(sOldContent, listType);
         }
 
         return memberlist;

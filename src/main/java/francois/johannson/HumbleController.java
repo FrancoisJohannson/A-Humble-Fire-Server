@@ -161,9 +161,24 @@ public class HumbleController {
 
 
     @GetMapping("/members")
-    public String getMembers() {
-        System.out.println("Processing a GET");
-        return readFileContents();
+    public @ResponseBody ResponseEntity<String> getMembers() {
+
+        ArrayList<Member> memberlist = readMemberlist();
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Access-Control-Allow-Origin","*");
+        responseHeaders.set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        responseHeaders.setContentType(MediaType.valueOf("application/json;charset=UTF-8"));
+
+        String json = new Gson().toJson(memberlist);
+
+        ResponseEntity re = ResponseEntity
+            .ok().
+            headers(responseHeaders).
+            body(json);
+
+        return re;
+
     }
 
     // Return one Member by Id
@@ -186,12 +201,13 @@ public class HumbleController {
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.set("Access-Control-Allow-Origin","*");
             responseHeaders.set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+            responseHeaders.setContentType(MediaType.valueOf("application/json;charset=UTF-8"));
 
             String json = new Gson().toJson(mfound);
             ResponseEntity re = ResponseEntity
                 .ok().
                 headers(responseHeaders).
-                contentType(MediaType.APPLICATION_JSON).
+                //contentType(MediaType.APPLICATION_JSON).
                 body(json);
 
             return re;

@@ -121,11 +121,11 @@ public class HumbleController {
         for( Words m:memberlist) {
             // don't write, if already existing
             if ( m.getId()== words.getId() ) {
-                return new ResponseEntity<String>("id aleady exists : " + words.getHanzi() + " " + words.getEnglish(), HttpStatus.CONFLICT);
+                return new ResponseEntity<String>("id aleady exists : " + words.getOrig() + " " + words.getMeans(), HttpStatus.CONFLICT);
             }
 
-            if (m.getHanzi().contains(words.getHanzi()) && m.getEnglish().contains(words.getEnglish())) {
-                return new ResponseEntity<String>("words aleady exists : " + words.getHanzi() + " " + words.getEnglish(), HttpStatus.CONFLICT);
+            if (m.getOrig().contains(words.getOrig()) && m.getMeans().contains(words.getMeans())) {
+                return new ResponseEntity<String>("words aleady exists : " + words.getOrig() + " " + words.getMeans(), HttpStatus.CONFLICT);
             }
 
         }
@@ -149,8 +149,8 @@ public class HumbleController {
 
         for( Words m:memberlist) {
             if ( m.getId()== words.getId() ) {
-                m.setHanzi(words.getHanzi());
-                m.setEnglish(words.getEnglish());
+                m.setOrig(words.getOrig());
+                m.setMeans(words.getMeans());
                 idfound = true;
             }
         }

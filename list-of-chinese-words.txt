@@ -1,1 +1,1 @@
-[{"id":1,"hanzi":"水","english":"Fire"},{"id":2,"hanzi":"水","english":"Water"},{"id":3,"hanzi":"气","english":"Air"},{"id":4,"hanzi":"土","english":"Earth"},{"id":5,"hanzi":"人 ","english":"Man"},{"id":6,"hanzi":"女","english":"Woman"}]
+[{"id":1,"orig":"火","means":"Fire"},{"id":2,"orig":"水","means":"Water"},{"id":3,"orig":"气","means":"Air"},{"id":4,"orig":"土","means":"Earth"},{"id":5,"orig":"人 ","means":"Man"},{"id":6,"orig":"女","means":"Woman"},{"id":7,"orig":"风","means":"Wind"}]

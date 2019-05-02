@@ -11,23 +11,23 @@ public class Words {
     }
 
     private Integer id;
-    private String hanzi;
-    private String english;
+    private String orig;
+    private String means;
 
-    public String getHanzi() {
-        return hanzi;
+    public String getOrig() {
+        return orig;
     }
 
-    public void setHanzi(String hanzi) {
-        this.hanzi = hanzi;
+    public void setOrig(String orig) {
+        this.orig = orig;
     }
 
-    public String getEnglish() {
-        return english;
+    public String getMeans() {
+        return means;
     }
 
-    public void setEnglish(String english) {
-        this.english = english;
+    public void setMeans(String means) {
+        this.means = means;
     }
 
 }
